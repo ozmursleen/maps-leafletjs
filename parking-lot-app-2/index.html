@@ -1,0 +1,88 @@
+<!doctype html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Parking Lot App</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css?family=Dosis" rel="stylesheet">
+
+    <!-- styles -->
+    <link rel="stylesheet" href="scripts/lib/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="scripts/lib/leaflet/leaflet.css">
+    <link rel="stylesheet" href="styles/styles.css">
+    <!-- end styles -->
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">
+                    <h3 class="no-tm"><span class="glyphicon glyphicon-road"></span> <b>Parking</b></h3>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div ng-controller="parkingLotController">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h4 class="font-bold">Enter URL:</h4>
+                    <div class="text-center">
+                        <input text="url" class="form-control" ng-model="ctrlConstants.apiUrl"
+                               ng-change="onApiUrlChange()"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <h4 class="font-bold">List Of Parking Locations:</h4>
+                    <table class="table table-bordered table-hover table-striped">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Status</th>
+                            <th>Published Date</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="parking in ctrlConstants.parkingLotList">
+                            <td><b>{{$index+1}}.</b> {{parking.properties.title}}</td>
+                            <td class="text-center"><span class="label"
+                                                          ng-class="parking.properties.layers['parking.garage'].data.State === 'ok'? 'label-success': 'label-danger'">{{parking.properties.layers["parking.garage"].data.State === 'ok'? 'Available': 'Not Available'}}</span>
+                            </td>
+                            <td>{{parking.properties.layers["parking.garage"].data.PubDate| date:'MM/dd/yyyy h:mma'}}</td>
+                            <td class="text-center"><a
+                                    ng-if="parking.properties.layers['parking.garage'].data.State === 'ok'" href=""
+                                    class="btn btn-primary" ng-click="viewParkingLotMap(parking)">View</a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/ng-template" id="modalMapTemplate.html">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="close()">×</button>
+            <h3 class="modal-title">{{parkingObj.properties.title}}</h3>
+        </div>
+        <div class="modal-body">
+            <div id="mapContainer" leafy coords="{{parkingObj.geometry.coordinates}}" class="full-width-map"></div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" data-dismiss="modal" ng-click="close()">ok</button>
+        </div>
+    </script>
+</body>
+
+<script data-main="js/main" src="scripts/lib/requirejs/require.min.js"></script>
+
+</html>

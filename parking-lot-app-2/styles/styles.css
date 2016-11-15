@@ -1,0 +1,19 @@
+body{
+	font-family: 'Dosis', sans-serif;
+    font-size: 18px;
+	overflow-x: hidden;
+}
+
+.full-width-map{
+	width: 100%;
+	min-height: 500px;
+	margin-bottom: 20px;
+}
+
+.font-bold{
+	font-weight: bold;
+}
+
+.no-tm{
+	margin-top: 0 !important;
+}
