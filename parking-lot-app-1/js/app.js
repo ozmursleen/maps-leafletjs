@@ -1,8 +1,8 @@
 define(['angular'], function (angular) {
-  var app = angular.module('AmsterdamParkingLotApp', []);
+  var app = angular.module('ParkingLotApp', []);
 
   app.init = function () {
-    angular.bootstrap(document, ['AmsterdamParkingLotApp']);
+    angular.bootstrap(document, ['ParkingLotApp']);
   };
 
   return app;
